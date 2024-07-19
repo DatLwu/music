@@ -1,0 +1,66 @@
+@model demo.Models.songs
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Thêm mới</h1>
+
+
+<div class="row">
+    <div class="col-md-6">
+        <form id="uploadForm" asp-action="Create" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="File_path" class="control-label"></label>
+                <input type="file" id="fileInput" name="file" accept=".mp3" class="form-control" />
+                <span asp-validation-for="File_path" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Song_Name" class="control-label"></label>
+                <input asp-for="Song_Name" class="form-control" required />
+                <span asp-validation-for="Song_Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Artist" class="control-label"></label>
+                <input asp-for="Artist" class="form-control" required />
+                <span asp-validation-for="Artist" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CategoryID" class="control-label"></label>
+                <select asp-for="CategoryID" class="form-control" asp-items="ViewBag.CategoryID"></select>
+                <span asp-validation-for="CategoryID" class="text-danger"></span>
+            </div>
+            <input type="submit" value="Create" id="submitButton" class="btn btn-primary" />
+            <input type="hidden" id="fileInputPath" name="File_path" />
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    <script>
+        document.getElementById('submitButton').addEventListener('click', function() {
+            var formData = new FormData();
+            var fileInput = document.getElementById('fileInput');
+            formData.append('file', fileInput.files[0]);
+            formData.append('Song_Name', document.getElementById('Song_Name').value);
+            formData.append('Artist', document.getElementById('Artist').value);
+            formData.append('CategoryID', document.getElementById('CategoryID').value);
+
+            fetch('@Url.Action("Create", "songs")', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(filePath => {
+                document.getElementById('fileInputPath').value = fileName;
+                // Submit the form after file is uploaded
+                document.getElementById('uploadForm').submit();
+            .catch(error => console.error('Error creating:', error));
+        });
+    </script>
+}
+

@@ -1,0 +1,50 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+.form-group{
+  position: relative;
+}
+.form-group__input{
+  color: #fff;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  outline: 2px solid #fff;
+  background-color: transparent;
+  transition: outline-color 250ms;
+}
+.form-group__input:focus{
+  outline-color: #3c50eb;
+}
+.form-group__label{
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate(10px, 10px);
+  transform-origin: left;
+  color: #fff;
+  transition: transform 200ms;
+}
+.form-group__input:focus + .form-group__label,
+.form-group__input:valid + .form-group__label{
+  transform: translate(0, -30px) scale(0.8);
+}

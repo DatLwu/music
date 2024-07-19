@@ -1,0 +1,53 @@
+@model IEnumerable<demo.Models.songs>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Danh sách bài hát</h1>
+
+<form asp-action="Index" method="get">
+    <div class="form-group">
+        <label for="SearchString">Search</label>
+        <input type="text" id="SearchString" name="searchString" value="@ViewBag.SearchString" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Search</button>
+    <a href="@Url.Action("Index", new { searchString = "" })" class="btn btn-secondary">Clear Search</a>
+</form>
+
+@* @if (!String.IsNullOrEmpty(ViewBag.SearchString))
+{
+    <div>
+        <a href="@Url.Action("Index", new { searchString = "" })" class="btn btn-secondary">Back to All Songs</a>
+    </div>
+} *@
+<p>
+    <a asp-action="Create">Thêm mới</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Song Name</th>
+            <th>Artist</th>
+            <th>CategoryName</th>
+            <th>Listen Count</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var song in ViewBag.TopSongs)
+        {
+            <tr>
+                <td>@song.Song_Name</td>
+                <td>@song.Artist</td>
+                <td>@song.Category.CategoryName</td>
+                <td>@song.ListenCount</td>
+                <td>
+                    <a asp-action="Edit" asp-controller="songs" asp-route-id="@song.SongID">Edit</a> |
+                    <a asp-action="Details" asp-controller="songs" asp-route-id="@song.SongID">Details</a> |
+                    <a asp-action="Delete" asp-controller="songs" asp-route-id="@song.SongID">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
